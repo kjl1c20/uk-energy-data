@@ -1,0 +1,6 @@
+sqlalchemy
+psycopg2
+boto3
+python-dotenv
+pandas
+pyiceberg
