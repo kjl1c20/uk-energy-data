@@ -1,8 +1,17 @@
 import os
 from pathlib import Path
-
+from sqlalchemy import create_engine
+import psycopg2
 from dotenv import load_dotenv
 from pyiceberg.catalog import load_catalog
+import json
+from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
+from botocore.exceptions import ClientError
+from urllib.parse import quote_plus as urlquote
+import logging
+import sys
+import traceback
+import boto3
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
@@ -100,8 +109,8 @@ def aws_to_psycopg2_format(db_conn_params: dict) -> dict:
     dbParams["port"] = db_conn_params["port"]
     dbParams["user"] = db_conn_params["username"]
     dbParams["passwd"] = db_conn_params["password"]
-    dbParams["database"] = db_conn_params["dbname"]
-    dbParams["schema"] = "master"
+    dbParams["database"] = db_conn_params["dbClusterIdentifier"]
+    dbParams["schema"] = "public"
     return dbParams
 
 
@@ -129,7 +138,7 @@ def return_dbConn_sqlalchemy(dbParamDetails):
         dbParamDetails["database"],
     )
     engine = create_engine(db_URI, connect_args = {'connect_timeout': 1200})
-    return engine.connect()
+    return engine
 
 
 def exception_handler(e):
