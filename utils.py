@@ -109,7 +109,7 @@ def aws_to_psycopg2_format(db_conn_params: dict) -> dict:
     dbParams["port"] = db_conn_params["port"]
     dbParams["user"] = db_conn_params["username"]
     dbParams["passwd"] = db_conn_params["password"]
-    dbParams["database"] = db_conn_params["dbClusterIdentifier"]
+    dbParams["database"] = "postgres"   # db_conn_params["dbname"]
     dbParams["schema"] = "public"
     return dbParams
 

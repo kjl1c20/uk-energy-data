@@ -5,6 +5,7 @@ boto3
 python-dotenv
 pandas
 pyiceberg
+pyarrow
 aws-secretsmanager-caching
 botocore
 dotenv

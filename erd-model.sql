@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS public.substation
 (
     substation_id integer NOT NULL,
     name text,
-    latitude numeric NOT NULL,
-    longitude numeric NOT NULL,
+    latitude numeric,
+    longitude numeric,
     region text NOT NULL,
     rating numeric,
     day_max_demand numeric,
