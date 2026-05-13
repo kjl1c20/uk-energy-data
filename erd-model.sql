@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public.substation
 );
 
 COMMENT ON TABLE public.substation
-    IS 'Stores information about the substation properties';
+    IS 'Stores information about the distribution substation properties.';
 
 COMMENT ON COLUMN public.substation.substation_id
     IS 'Each substation should have its id which is defined by UK National Grid or SSEN';
