@@ -3,32 +3,33 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public.region
-(
-    region_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    region text NOT NULL,
-    PRIMARY KEY (region_id)
-);
-
-COMMENT ON TABLE public.region
-    IS 'Different regions in the entire United Kingdom';
-
 CREATE TABLE IF NOT EXISTS public.substation
 (
     substation_id integer NOT NULL,
+    name text,
     latitude numeric NOT NULL,
     longitude numeric NOT NULL,
-    region_id integer NOT NULL
+    region text NOT NULL,
+    rating numeric,
+    day_max_demand numeric,
+    night_max_demand numeric
 );
 
 COMMENT ON TABLE public.substation
     IS 'Stores information about the substation properties';
 
-ALTER TABLE IF EXISTS public.substation
-    ADD CONSTRAINT substation_region_id FOREIGN KEY (region_id)
-    REFERENCES public.region (region_id) MATCH SIMPLE
-    ON UPDATE RESTRICT
-    ON DELETE RESTRICT
-    NOT VALID;
+COMMENT ON COLUMN public.substation.substation_id
+    IS 'Each substation should have its id which is defined by UK National Grid or SSEN';
 
+COMMENT ON COLUMN public.substation.name
+    IS 'The name of the substation';
+
+COMMENT ON COLUMN public.substation.rating
+    IS 'The maximum capacity that the substation can handle. Units are in kVA';
+
+COMMENT ON COLUMN public.substation.day_max_demand
+    IS 'The maximum electricity demand recorded during daytime hours.';
+
+COMMENT ON COLUMN public.substation.night_max_demand
+    IS 'The maximum electricity demand recorded during nighttime hours.';
 END;
