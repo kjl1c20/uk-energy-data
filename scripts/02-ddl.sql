@@ -32,4 +32,38 @@ COMMENT ON COLUMN public.substation.day_max_demand
 
 COMMENT ON COLUMN public.substation.night_max_demand
     IS 'The maximum electricity demand recorded during nighttime hours.';
+
+CREATE TABLE IF NOT EXISTS public.embeddings
+(
+    id text NOT NULL,
+    content text NOT NULL,
+    embedding vector(1536) NOT NULL,
+    metadata jsonb,
+    PRIMARY KEY (id)
+);
+
+COMMENT ON TABLE public.embeddings
+    IS 'Stores OpenAI text-embedding-3-small vectors for EV knowledge base chunks.';
+
+CREATE TABLE IF NOT EXISTS public.vehicle_profiles
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    make text NOT NULL,
+    model text NOT NULL,
+    "trim" text,
+    model_year integer NOT NULL,
+    battery_capacity_kwh numeric NOT NULL,
+    vehicle_class text NOT NULL,
+    chemistry text NOT NULL,
+    voltage_architecture integer NOT NULL,
+    "peak_dc_power_kW" numeric NOT NULL,
+    curve_type text NOT NULL,
+    curve_points jsonb NOT NULL,
+    source_url text,
+    notes text,
+    CONSTRAINT uq_vehicle_variant UNIQUE (make, model, "trim", model_year, battery_capacity_kwh)
+);
+
+COMMENT ON TABLE public.vehicle_profiles
+    IS 'Reference charge curve profiles per vehicle variant.';
 END;
