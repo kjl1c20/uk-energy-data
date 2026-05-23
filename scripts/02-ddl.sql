@@ -52,16 +52,16 @@ CREATE TABLE IF NOT EXISTS public.vehicle_profiles
     model text NOT NULL,
     "trim" text,
     model_year integer NOT NULL,
-    battery_capacity_kwh numeric NOT NULL,
+    total_battery_capacity_kwh numeric NOT NULL,
+    usable_battery_capacity_kwh numeric NOT NULL,
     vehicle_class text NOT NULL,
     chemistry text NOT NULL,
-    voltage_architecture integer NOT NULL,
     "peak_dc_power_kW" numeric NOT NULL,
     curve_type text NOT NULL,
     curve_points jsonb NOT NULL,
     source_url text,
     notes text,
-    CONSTRAINT uq_vehicle_variant UNIQUE (make, model, "trim", model_year, battery_capacity_kwh)
+    CONSTRAINT uq_vehicle_variant UNIQUE (make, model, "trim", model_year, total_battery_capacity_kwh)
 );
 
 COMMENT ON TABLE public.vehicle_profiles
