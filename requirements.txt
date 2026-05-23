@@ -1,6 +1,6 @@
 sqlalchemy
 requests
-psycopg2
+psycopg2-binary
 boto3
 python-dotenv
 pandas
