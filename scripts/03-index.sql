@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS embeddings_content_tsv_idx ON embeddings USING GIN(content_tsv)

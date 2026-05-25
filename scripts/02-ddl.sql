@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS public.embeddings
     content text NOT NULL,
     embedding vector(1536) NOT NULL,
     metadata jsonb,
+    content_tsv tsvector NOT NULL,
     PRIMARY KEY (id)
 );
 
