@@ -1,0 +1,43 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+
+    - name: Set database secret name
+      run: |
+        if [ "${{ github.ref_name }}" == "develop" ]; then
+          echo "DB_SECRET_NAME=${{ secrets.DEV_DB_SECRET_NAME }}" >> $GITHUB_ENV
+        else
+          echo "DB_SECRET_NAME=${{ secrets.PROD_DB_SECRET_NAME }}" >> $GITHUB_ENV
+        fi
+
+    - name: Run migrations
+      run: alembic upgrade head

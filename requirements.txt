@@ -9,3 +9,4 @@ pyarrow
 aws-secretsmanager-caching
 botocore
 dotenv
+alembic
